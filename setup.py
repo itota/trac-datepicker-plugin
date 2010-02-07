@@ -32,7 +32,7 @@ from setuptools import find_packages, setup
 setup(
     name = 'TracDatepickerPlugin',
     version = '0.1.0',
-    keywords = 'trac plugin date datepicker',
+    keywords = 'trac plugin date datepicker i18n',
     author = 'Takashi Ito',
     author_email = 'TakashiC.Ito@gmail.com',
     url = 'http://github.com/itota/trac-datepicker-plugin',
@@ -48,6 +48,7 @@ setup(
             'htdocs/css/images/*.png',
             'htdocs/css/images/*.gif',
             'htdocs/js/*.js',
+            'htdocs/js/i18n/*.js',
         ],
     },
     entry_points = {

@@ -38,6 +38,7 @@ class DatepickerModule(Component):
 
     implements(ITemplateProvider, ITemplateStreamFilter)
 
+    lang = Option('datepicker', 'lang')
     target_path = Option('datepicker', 'target_path', '^/(ticket|newticket|report/)')
     target_fields = ListOption('datepicker', 'target_fields')
 
@@ -54,19 +55,30 @@ class DatepickerModule(Component):
         'calculateWeek',
         'changeMonth',
         'changeYear',
+        'closeText',
         'constrainInput',
+        'currentText',
         'dateFormat',
+        'dayNames',
+        'dayNamesMin',
+        'dayNamesShort',
         'defaultDate',
         'duration',
+        'firstDay',
         'gotoCurrent',
         'hideIfNoPrevNext',
+        'isRTL',
         'maxDate',
         'minDate',
+        'monthNames',
+        'monthNamesShort',
         'navigationAsDateFormat',
+        'nextText',
         'numberOfMonths',
         'onChangeMonthYear',
         'onClose',
         'onSelect',
+        'prevText',
         'shortYearCutoff',
         'showAnim',
         'showButtonPanel',
@@ -90,7 +102,7 @@ class DatepickerModule(Component):
 
     def get_options(self, req, id):
         if not hasattr(self, 'datepicker_options'):
-            ex = ['target_path', 'target_fields']
+            ex = ['lang', 'target_path', 'target_fields']
             options = dict(filter(lambda x: not (x[0] in ex or '.' in x[0]), self.config.options('datepicker')))
             # check if buttonImage needs to be added
             has_image = options.get('buttonimage')
@@ -126,6 +138,8 @@ class DatepickerModule(Component):
             add_stylesheet(req, 'datepicker/css/ui.datepicker.css')
             add_script(req, 'datepicker/js/jquery.ui.core.js')
             add_script(req, 'datepicker/js/jquery.ui.datepicker.js')
+            if self.lang:
+                add_script(req, 'datepicker/js/i18n/ui.datepicker-%s.min.js' % self.lang)
             lines = '\n'.join(['  $("#%s").datepicker({%s});' % (x, self.get_options(req, x)) for x in self.target_fields])
             code = 'jQuery(document).ready(function($) {\n%s\n});' % lines
             script = tag.script(code, type='text/javascript')
